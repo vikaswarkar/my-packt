@@ -147,4 +147,7 @@
 		</repository>
 	</repositories>
 
+	<scm>
+		<developerConnection>scm:git:https://github.com/vikaswarkar/my-packt.git</developerConnection>
+	</scm>
 </project>
