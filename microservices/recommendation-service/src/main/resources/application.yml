@@ -1,0 +1,25 @@
+server.port: 7002
+
+logging:
+  level:
+    root: INFO
+    se.magnus: DEBUG
+    org.springframework.data.mongodb.core: DEBUG
+    
+spring:
+  data:
+    mongodb:
+      database: recommendation-db
+      host: localhost
+      port: 27017
+---
+
+spring.profiles: docker
+
+spring:
+  data:
+    mongodb:
+      host: mongodb
+
+server:
+  port: 8080

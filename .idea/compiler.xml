@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="product-service" />
+        <module name="api" />
+        <module name="util" />
+        <module name="review-service" />
+        <module name="product-composite-service" />
+        <module name="recommendation-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="product-composite-service (1)" target="8" />
+      <module name="product-microservices" target="8" />
+      <module name="product-microservices-parent (1)" target="8" />
+      <module name="product-service (1)" target="8" />
+      <module name="recommendation-service (1)" target="8" />
+      <module name="review-service (1)" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api" options="-parameters" />
+      <module name="product-composite-service" options="-parameters" />
+      <module name="product-composite-service (1)" options="-parameters" />
+      <module name="product-service" options="-parameters" />
+      <module name="product-service (1)" options="-parameters" />
+      <module name="recommendation-service" options="-parameters" />
+      <module name="recommendation-service (1)" options="-parameters" />
+      <module name="review-service" options="-parameters" />
+      <module name="review-service (1)" options="-parameters" />
+      <module name="util" options="-parameters" />
+    </option>
+  </component>
+</project>
