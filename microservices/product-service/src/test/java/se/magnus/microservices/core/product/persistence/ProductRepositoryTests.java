@@ -1,7 +1,4 @@
-package se.magnus.microservices.core.product;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+package se.magnus.microservices.core.product.persistence;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -14,12 +11,12 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import se.magnus.microservices.core.product.persistence.ProductEntity;
-import se.magnus.microservices.core.product.persistence.ProductRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ExtendWith(SpringExtension.class)
 @DataMongoTest
-class PersistenceTests {
+class ProductRepositoryTests {
 	
 	@Autowired
 	ProductRepository repository;

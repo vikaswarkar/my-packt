@@ -1,11 +1,6 @@
 package se.magnus.microservices.core.review;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
-import static reactor.core.publisher.Mono.just;
-
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,13 +12,19 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import lombok.extern.slf4j.Slf4j;
 import se.magnus.api.core.review.Review;
 import se.magnus.microservices.core.review.persistence.ReviewRepository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static reactor.core.publisher.Mono.just;
+
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT,
+		properties = {"spring.datasource.url=jdbc:h2:mem:review-db",
+				"eureka.client.enabled=false"})
 @Slf4j
 public class ReviewServiceApplicationTests {
 
@@ -46,10 +47,9 @@ public class ReviewServiceApplicationTests {
 		postAndVerifyReview(1, 1, HttpStatus.OK);
 		postAndVerifyReview(1, 2, HttpStatus.OK);
 		postAndVerifyReview(1, 3, HttpStatus.OK);
-		
+
 		assertEquals(3, repository.count());
-		
-		
+
 		int productId = 1;
 		printJson(productId);
 		

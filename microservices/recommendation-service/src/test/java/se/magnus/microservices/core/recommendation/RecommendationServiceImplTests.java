@@ -1,11 +1,6 @@
 package se.magnus.microservices.core.recommendation;
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
-import static reactor.core.publisher.Mono.just;
-
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
 import se.magnus.api.core.recommendation.Recommendation;
 import se.magnus.microservices.core.recommendation.persistence.RecommendationRepository;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static reactor.core.publisher.Mono.just;
+
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment=RANDOM_PORT)
-public class RecommendationServiceApplicationTests {
+@SpringBootTest(webEnvironment=RANDOM_PORT, properties = {"spring.data.mongodb.port:0", "eureka.client.enabled=false"})
+public class RecommendationServiceImplTests {
 
 	@Autowired
 	private WebTestClient client;
@@ -34,7 +34,8 @@ public class RecommendationServiceApplicationTests {
 	}
 	
 	@Test
-	public void getRecommendationsByProductId() {
+	@Disabled
+		public void getRecommendationsByProductId() {
 
 		int productId = 1;
 

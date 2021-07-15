@@ -1,19 +1,17 @@
 package se.magnus.microservices.core.review.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.extern.slf4j.Slf4j;
 import se.magnus.api.core.review.Review;
 import se.magnus.api.core.review.ReviewService;
 import se.magnus.microservices.core.review.persistence.ReviewEntity;
 import se.magnus.microservices.core.review.persistence.ReviewRepository;
 import se.magnus.util.exceptions.InvalidInputException;
 import se.magnus.util.http.ServiceUtil;
+
+import java.util.List;
 
 @Slf4j
 @RestController

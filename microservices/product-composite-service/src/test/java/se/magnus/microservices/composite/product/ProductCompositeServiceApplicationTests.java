@@ -1,12 +1,5 @@
 package se.magnus.microservices.composite.product;
 
-import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.when;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
-import static reactor.core.publisher.Mono.just;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
 import se.magnus.api.composite.product.ProductAggregate;
 import se.magnus.api.composite.product.RecommendationSummary;
 import se.magnus.api.composite.product.ReviewSummary;
@@ -28,7 +20,15 @@ import se.magnus.microservices.composite.product.services.ProductCompositeIntegr
 import se.magnus.util.exceptions.InvalidInputException;
 import se.magnus.util.exceptions.NotFoundException;
 
-@SpringBootTest(webEnvironment=RANDOM_PORT)
+import static java.util.Collections.singletonList;
+import static org.mockito.Mockito.when;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static reactor.core.publisher.Mono.just;
+
+@SpringBootTest(webEnvironment=RANDOM_PORT,
+		properties = {"eureka.client.enabled=false"})
 @ExtendWith(SpringExtension.class)
 public class ProductCompositeServiceApplicationTests {
 

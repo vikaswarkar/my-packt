@@ -1,13 +1,12 @@
 package se.magnus.util.http;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @Component
 @Slf4j

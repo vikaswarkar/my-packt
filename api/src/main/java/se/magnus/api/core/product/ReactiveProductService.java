@@ -1,14 +1,10 @@
 package se.magnus.api.core.product;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+@RequestMapping("/reactive")
 public interface ReactiveProductService {
 
     /**
@@ -24,7 +20,7 @@ public interface ReactiveProductService {
     
     
     @PostMapping(value = "/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Product createProduct(@RequestBody Product product);
+    public Mono<Product> createProduct(@RequestBody Product product);
     
     @DeleteMapping(value = "/product/{productId}")
     public void deleteProduct(@PathVariable("productId")int productId);

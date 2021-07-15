@@ -1,9 +1,8 @@
 package se.magnus.microservices.core.product.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.extern.slf4j.Slf4j;
 import se.magnus.api.core.product.Product;
 import se.magnus.api.core.product.ProductService;
 import se.magnus.microservices.core.product.persistence.ProductEntity;
@@ -15,7 +14,6 @@ import se.magnus.util.http.ServiceUtil;
 @RestController
 @Slf4j
 public class ProductServiceImpl implements ProductService {
-	
 
     private final ServiceUtil serviceUtil;
     private final ProductRepository repository;
@@ -35,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
         if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
 
         ProductEntity entity = repository.findByProductId(productId)
-        		.orElseThrow( () ->  new NotFoundException("No Product found for Id " + productId));
+        		.orElseThrow( () ->  new NotFoundException("No Product found for productId " + productId));
 
         Product product = mapper.entityToApi(entity);
         product.setServiceAddress(serviceUtil.getServiceAddress());

@@ -1,10 +1,6 @@
-package se.magnus.microservices.core.product;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+package se.magnus.microservices.core.product.persistence;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,14 +9,13 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import reactor.test.StepVerifier;
-import se.magnus.microservices.core.product.persistence.ProductEntity;
-import se.magnus.microservices.core.product.persistence.ReactiveProductRepository;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @DataMongoTest
-class ReactivePersistenceTests {
+class ReactiveProductRepositoryTests {
 
 	@Autowired
 	ReactiveProductRepository repository;
@@ -82,7 +77,9 @@ class ReactivePersistenceTests {
 	}
 	
 	@Test
-	public void getByProductId(){
+	public void
+
+	getByProductId(){
 		StepVerifier.create(repository.findByProductId(1))
 			.expectNextMatches(foundEntity-> areProductEqual(this.savedEntity, foundEntity));
 	}

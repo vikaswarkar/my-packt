@@ -1,12 +1,6 @@
 package se.magnus.microservices.core.review;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,12 +10,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.extern.slf4j.Slf4j;
 import se.magnus.microservices.core.review.persistence.ReviewEntity;
 import se.magnus.microservices.core.review.persistence.ReviewRepository;
 import se.magnus.microservices.core.review.services.ReviewMapper;
 import se.magnus.util.http.ServiceUtil;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
@@ -40,7 +36,6 @@ public class PersistenceTests {
 		this.repository = repository;
 		this.mapper = mapper;
 		this.serviceUtil = serviceUtil;
-		
 	}
 	
 	@BeforeEach

@@ -1,18 +1,17 @@
 package se.magnus.microservices.core.recommendation.services;
 
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.RestController;
-
-import lombok.extern.slf4j.Slf4j;
 import se.magnus.api.core.recommendation.Recommendation;
 import se.magnus.api.core.recommendation.RecommendationService;
 import se.magnus.microservices.core.recommendation.persistence.RecommendationEntity;
 import se.magnus.microservices.core.recommendation.persistence.RecommendationRepository;
 import se.magnus.util.exceptions.InvalidInputException;
 import se.magnus.util.http.ServiceUtil;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -53,6 +52,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 			return mapper.entityToApi(entity);
 		}catch(DataIntegrityViolationException deve) {
 			log.error("Error saving recommendation - {} ", recommendation);
+			log.error("Error Message - {} ", deve.getMessage());
 			throw new InvalidInputException("Error saving recommendation - {} \", recommendation");
 		}
 		

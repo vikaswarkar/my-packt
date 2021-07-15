@@ -1,15 +1,10 @@
 package se.magnus.microservices.core.review.persistence;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
-
-import org.springframework.data.annotation.Version;
-
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Version;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "reviews", indexes = {

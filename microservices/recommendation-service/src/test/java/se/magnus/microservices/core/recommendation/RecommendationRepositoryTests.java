@@ -1,32 +1,31 @@
 package se.magnus.microservices.core.recommendation;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import lombok.extern.slf4j.Slf4j;
-import se.magnus.microservices.core.recommendation.persistence.ReactiveRecommendationRepository;
 import se.magnus.microservices.core.recommendation.persistence.RecommendationEntity;
+import se.magnus.microservices.core.recommendation.persistence.RecommendationRepository;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ExtendWith(SpringExtension.class)
 @DataMongoTest
 @Slf4j
-public class ReactivePersistenceTests {
+public class RecommendationRepositoryTests {
 
 	RecommendationEntity savedEntity;
 	
 	@Autowired
-	private ReactiveRecommendationRepository repository;
+	private RecommendationRepository repository;
 	
 	@BeforeEach
 	public void setUpDb() {
@@ -35,7 +34,7 @@ public class ReactivePersistenceTests {
 		RecommendationEntity entity = new RecommendationEntity(1, 1, "Author", 5, "Content");
 		log.info("----->>>" + entity.toString());
 		
-		savedEntity = repository.save(entity).block();
+		savedEntity = repository.save(entity);
 		log.info("----->>>" + savedEntity.toString());
 		
 		assertEqualsRecommendation(entity, savedEntity);
@@ -44,21 +43,21 @@ public class ReactivePersistenceTests {
 	@Test
 	public void create() {
 		RecommendationEntity entity = new RecommendationEntity(1, 2, "Author", 15, "Content1");
-		repository.save(entity).block();
+		repository.save(entity);
 		
-		RecommendationEntity foundEntity = repository.findById(entity.getId()).block();
+		RecommendationEntity foundEntity = repository.findById(entity.getId()).get();
 		
 		assertEqualsRecommendation(entity, foundEntity);
 		
-		assertEquals(2, repository.count().block());
+		assertEquals(2, repository.count());
 	}
 	
 	@Test
 	public void update() {
 		savedEntity.setAuthor("Vikas");
-		repository.save(savedEntity).block();
+		repository.save(savedEntity);
 		
-		RecommendationEntity foundEntity = repository.findById(savedEntity.getId()).block();
+		RecommendationEntity foundEntity = repository.findById(savedEntity.getId()).get();
 		
 		assertEqualsRecommendation(savedEntity, foundEntity);
 		
@@ -69,13 +68,13 @@ public class ReactivePersistenceTests {
 	
 	@Test
 	public void delete() {
-		repository.delete(savedEntity).block();
-		assertFalse(repository.existsById(savedEntity.getId()).block());
+		repository.delete(savedEntity);
+		assertFalse(repository.existsById(savedEntity.getId()));
 	}
 	
 	@Test
 	private void getByProductId() {
-		List<RecommendationEntity> foundEntities = repository.findByProductId(savedEntity.getProductId()).collectList().block();
+		List<RecommendationEntity> foundEntities = repository.findByProductId(savedEntity.getProductId());
 		assertThat(foundEntities, hasSize(1));
 		assertEqualsRecommendation(savedEntity, foundEntities.get(0));
 	}

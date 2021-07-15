@@ -1,7 +1,10 @@
 package se.magnus.api.composite.product;
 
+import lombok.Builder;
+
 import java.util.List;
 
+@Builder
 public class ProductAggregate {
     private final int productId;
     private final String name;

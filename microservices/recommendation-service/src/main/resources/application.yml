@@ -1,5 +1,4 @@
 server.port: 7002
-
 logging:
   level:
     root: INFO
@@ -12,6 +11,52 @@ spring:
       database: recommendation-db
       host: localhost
       port: 27017
+      auto-index-creation: true
+  application:
+    name: recommendation
+
+spring.cloud.stream:
+  defaultBinder: rabbit
+  default.contentType: application/json
+  bindings.input:
+    destination: recommendations
+    group: recommendationsGroup
+
+spring.cloud.stream.bindings.input.consumer:
+  maxAttempts: 3
+  backOffInitialInterval: 500
+  backOffMaxInterval: 1000
+  backOffMultiplier: 2.0
+
+spring.cloud.stream.rabbit.bindings.input.consumer:
+  autoBindDlq: true
+  republishToDlq: true
+
+spring.cloud.stream.kafka.bindings.input.consumer:
+  enableDlq: true
+
+spring.cloud.stream.kafka.binder:
+  brokers: 127.0.0.1
+  defaultBrokerPort: 9092
+
+spring.rabbitmq:
+  host: 127.0.0.1
+  port: 5672
+  username: guest
+  password: guest
+
+management.endpoint.health.show-details: "ALWAYS"
+management.endpoints.web.exposure.include: "*"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+#    initialInstanceInfoReplicationIntervalSeconds: 5
+#    registryFetchIntervalSeconds: 5
+#  instance:
+#    leaseRenewalIntervalInSeconds: 5
+#    leaseExpirationDurationInSeconds: 5
 ---
 
 spring.profiles: docker
@@ -21,5 +66,11 @@ spring:
     mongodb:
       host: mongodb
 
+spring.rabbitmq.host: rabbitmq
+
+spring.cloud.stream.kafka.binder.brokers: kafka
+
 server:
   port: 8080
+
+eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka/
