@@ -88,8 +88,8 @@ services:
       timeout: 5s
       retries: 10
 
-#  eureka:
-#    build: spring-cloud/eureka-server
-#    mem_limit: 350m
-#    ports:
-#    - "8761:8761"
+  eureka:
+    build: spring-cloud/eureka-server
+    mem_limit: 350m
+    ports:
+    - "8761:8761"
