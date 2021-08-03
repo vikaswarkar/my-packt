@@ -12,20 +12,34 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.2.Final/mapstruct-1.4.2.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar" />
         </processorPath>
-        <module name="util" />
-        <module name="review-service" />
         <module name="product-composite-service" />
+        <module name="review-service" />
         <module name="product-service" />
-        <module name="api" />
+        <module name="async-recommendation-service" />
+        <module name="reactive-review-service" />
         <module name="eureka-server" />
+        <module name="reactive-product-composite-service" />
         <module name="recommendation-service" />
+        <module name="reactive-product-service" />
+        <module name="trad-product-service" />
+        <module name="async-product-service" />
+        <module name="util" />
+        <module name="trad-review-service" />
+        <module name="api" />
+        <module name="reactive-recommendation-service" />
+        <module name="trad-recommendation-service" />
+        <module name="async-product-composite-service" />
+        <module name="async-review-service" />
+        <module name="trad-product-composite-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="gateway" target="8" />
       <module name="product-composite-service (1)" target="8" />
       <module name="product-microservices" target="8" />
       <module name="product-microservices-parent (1)" target="8" />
       <module name="product-service (1)" target="8" />
+      <module name="product-service (2)" target="8" />
       <module name="recommendation-service (1)" target="8" />
       <module name="review-service (1)" target="8" />
     </bytecodeTargetLevel>
@@ -33,15 +47,28 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api" options="-parameters" />
+      <module name="async-product-composite-service" options="-parameters" />
+      <module name="async-product-service" options="-parameters" />
+      <module name="async-recommendation-service" options="-parameters" />
+      <module name="async-review-service" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="product-composite-service" options="-parameters" />
       <module name="product-composite-service (1)" options="-parameters" />
       <module name="product-service" options="-parameters" />
       <module name="product-service (1)" options="-parameters" />
+      <module name="product-service (2)" options="-parameters" />
+      <module name="reactive-product-composite-service" options="-parameters" />
+      <module name="reactive-product-service" options="-parameters" />
+      <module name="reactive-recommendation-service" options="-parameters" />
+      <module name="reactive-review-service" options="-parameters" />
       <module name="recommendation-service" options="-parameters" />
       <module name="recommendation-service (1)" options="-parameters" />
       <module name="review-service" options="-parameters" />
       <module name="review-service (1)" options="-parameters" />
+      <module name="trad-product-composite-service" options="-parameters" />
+      <module name="trad-product-service" options="-parameters" />
+      <module name="trad-recommendation-service" options="-parameters" />
+      <module name="trad-review-service" options="-parameters" />
       <module name="util" options="-parameters" />
     </option>
   </component>

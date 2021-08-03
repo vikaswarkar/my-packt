@@ -48,9 +48,9 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 		this.restTemplate = restTemplate;
 		this.exceptionHelper = exceptionHelper;
 
-		productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product/";
-		recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendation?productId=";
-		reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
+		productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/products/";
+		recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendations?productId=";
+		reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort + "/reviews?productId=";
 	}
 
 	@Override
@@ -106,8 +106,8 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 		}
 	}
 
+	@Override
 	public List<Recommendation> getRecommendations(int productId) {
-
 		try {
 			String url = recommendationServiceUrl + productId;
 
@@ -147,6 +147,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 		}
 	}
 
+	@Override
 	public List<Review> getReviews(int productId) {
 
 		try {

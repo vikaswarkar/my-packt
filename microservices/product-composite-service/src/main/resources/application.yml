@@ -48,6 +48,7 @@ get-composite-product:
       The implementation of the delete method is idempotent, i.e. it can be called several times with the same response.
       This means that a delete request of a non existing product will return <b>200 Ok</b>.
         
+
 server.port: 7000
 
 # These values are injected in the integration service.
@@ -70,35 +71,6 @@ logging:
     root: INFO
     se.magnus: DEBUG
 
-spring:
-  cloud:
-    stream:
-      default-binder: rabbit
-      default.contentType: application/json
-      bindings:
-        output-products:
-          destination: products
-          producer:
-            required-groups: auditGroup
-        output-recommendations:
-          destination: recommendations
-          producer:
-            required-groups: auditGroup
-        output-reviews:
-          destination: reviews
-          producer:
-            required-groups: auditGroup
-      kafka:
-        binder:
-          brokers: localhost
-          defaultBrokerPport: 9092
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
-
 management.endpoint.health.show-details: "ALWAYS"
 management.endpoints.web.exposure.include: "*"
 
@@ -115,6 +87,10 @@ eureka:
 ribbon.ServerListRefreshInterval: 5000
 
 ribbon.NFLoadBalancerPingInterval: 5
+
+spring:
+  application:
+    name: product-composite
 ---
 
 spring.profiles: docker
@@ -132,9 +108,5 @@ app:
   review-service:
     host: review
     port: 8080
-
-spring.rabbitmq.host: rabbitmq
-
-spring.cloud.stream.kafka.binder.brokers: kafka
 
 eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka/

@@ -30,30 +30,26 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
 
     @Override
     public void createCompositeProduct(ProductAggregate body) {
-
         try {
-
             LOG.debug("createCompositeProduct: creates a new composite entity for productId: {}", body.getProductId());
 
-            Product product = new Product(body.getProductId(), body.getName(), body.getWeight(), null);
+            Product product = new Product(body.getProductId(), body.getName(), body.getWeight(), serviceUtil.getServiceAddress());
             integration.createProduct(product);
 
             if (body.getRecommendations() != null) {
                 body.getRecommendations().forEach(r -> {
-                    Recommendation recommendation = new Recommendation(body.getProductId(), r.getRecommendationId(), r.getAuthor(), r.getRate(), r.getContent(), null);
+                    Recommendation recommendation = new Recommendation(body.getProductId(), r.getRecommendationId(), r.getAuthor(), r.getRate(), r.getContent(), serviceUtil.getServiceAddress());
                     integration.createRecommendation(recommendation);
                 });
             }
 
             if (body.getReviews() != null) {
                 body.getReviews().forEach(r -> {
-                    Review review = new Review(body.getProductId(), r.getReviewId(), r.getAuthor(), r.getSubject(), r.getContent(), null);
+                    Review review = new Review(body.getProductId(), r.getReviewId(), r.getAuthor(), r.getSubject(), r.getContent(), serviceUtil.getServiceAddress());
                     integration.createReview(review);
                 });
             }
-
             LOG.debug("createCompositeProduct: composite entites created for productId: {}", body.getProductId());
-
         } catch (RuntimeException re) {
             LOG.warn("createCompositeProduct failed", re);
             throw re;

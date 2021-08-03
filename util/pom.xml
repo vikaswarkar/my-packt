@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>se.magnus.microservices.core.product</groupId>
 		<artifactId>product-microservices-parent</artifactId>
-		<version>1.0.0</version>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>util</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>UTIL</name>
 	<description>UTIL</description>
 

@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/recommendation-service/pom.xml" />
         <option value="$PROJECT_DIR$/api/pom.xml" />
         <option value="$PROJECT_DIR$/util/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/reactive-product-service/pom.xml" />
       </list>
     </option>
   </component>

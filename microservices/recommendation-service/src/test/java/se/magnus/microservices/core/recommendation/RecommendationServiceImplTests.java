@@ -22,6 +22,8 @@ import static reactor.core.publisher.Mono.just;
 @SpringBootTest(webEnvironment=RANDOM_PORT, properties = {"spring.data.mongodb.port:0", "eureka.client.enabled=false"})
 public class RecommendationServiceImplTests {
 
+	private String RECOMMENDATION_BASE_URL = "/recommendations";
+
 	@Autowired
 	private WebTestClient client;
 
@@ -44,7 +46,7 @@ public class RecommendationServiceImplTests {
 		postAndVerifyRecommendation(productId, 3, HttpStatus.OK);
 		
 		client.get()
-			.uri("/recommendation?productId=" + productId)
+			.uri(RECOMMENDATION_BASE_URL + "?productId=" + productId)
 			.accept(APPLICATION_JSON_UTF8)
 			.exchange()
 			.expectStatus().isOk()
@@ -58,13 +60,13 @@ public class RecommendationServiceImplTests {
 	public void getRecommendationsMissingParameter() {
 
 		client.get()
-			.uri("/recommendation")
+			.uri(RECOMMENDATION_BASE_URL)
 			.accept(APPLICATION_JSON_UTF8)
 			.exchange()
 			.expectStatus().isEqualTo(BAD_REQUEST)
 			.expectHeader().contentType(APPLICATION_JSON_UTF8)
 			.expectBody()
-			.jsonPath("$.path").isEqualTo("/recommendation");
+			.jsonPath("$.path").isEqualTo(RECOMMENDATION_BASE_URL);
 //			.jsonPath("$.message").isEqualTo("Required int parameter 'productId' is not present");
 	}
 
@@ -72,13 +74,13 @@ public class RecommendationServiceImplTests {
 	public void getRecommendationsInvalidParameter() {
 
 		client.get()
-			.uri("/recommendation?productId=no-integer")
+			.uri(RECOMMENDATION_BASE_URL + "?productId=no-integer")
 			.accept(APPLICATION_JSON_UTF8)
 			.exchange()
 			.expectStatus().isEqualTo(BAD_REQUEST)
 			.expectHeader().contentType(APPLICATION_JSON_UTF8)
 			.expectBody()
-			.jsonPath("$.path").isEqualTo("/recommendation");
+			.jsonPath("$.path").isEqualTo(RECOMMENDATION_BASE_URL);
 //			.jsonPath("$.message").isEqualTo("Type mismatch.");
 	}
 
@@ -88,7 +90,7 @@ public class RecommendationServiceImplTests {
 		int productIdNotFound = 113;
 
 		client.get()
-			.uri("/recommendation?productId=" + productIdNotFound)
+			.uri(RECOMMENDATION_BASE_URL + "?productId=" + productIdNotFound)
 			.accept(APPLICATION_JSON_UTF8)
 			.exchange()
 			.expectStatus().isOk()
@@ -103,13 +105,13 @@ public class RecommendationServiceImplTests {
 		int productIdInvalid = -1;
 
 		client.get()
-			.uri("/recommendation?productId=" + productIdInvalid)
+			.uri(RECOMMENDATION_BASE_URL + "?productId=" + productIdInvalid)
 			.accept(APPLICATION_JSON_UTF8)
 			.exchange()
 			.expectStatus().isEqualTo(UNPROCESSABLE_ENTITY)
 			.expectHeader().contentType(APPLICATION_JSON_UTF8)
 			.expectBody()
-			.jsonPath("$.path").isEqualTo("/recommendation")
+			.jsonPath("$.path").isEqualTo(RECOMMENDATION_BASE_URL)
 			.jsonPath("$.message").isEqualTo("Invalid productId: " + productIdInvalid);
 	}
 	
@@ -117,7 +119,7 @@ public class RecommendationServiceImplTests {
 		Recommendation recommendation = new Recommendation(productId, recommendationId, "Author", 4, "Contect", "SA");
 
 		return client.post()
-		.uri("/recommendation?productId="+ productId)
+		.uri(RECOMMENDATION_BASE_URL + "?productId="+ productId)
 		.body(just(recommendation), Recommendation.class)
 		.accept(MediaType.APPLICATION_JSON_UTF8)
 		.exchange()

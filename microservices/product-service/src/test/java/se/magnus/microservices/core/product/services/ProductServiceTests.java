@@ -24,7 +24,9 @@ import static reactor.core.publisher.Mono.just;
 @SpringBootTest(webEnvironment=RANDOM_PORT, properties = {"spring.data.mongodb.port:0", "eureka.client.enabled=false"})
 public class ProductServiceTests {
 
-    @Autowired
+	private String PRODUCT_BASE_URL = "/products";
+
+	@Autowired
     private WebTestClient client;
 
     @Autowired
@@ -58,7 +60,7 @@ public class ProductServiceTests {
 		postAndVerifyProduct(productId, HttpStatus.OK);
 		assertTrue(repository.findByProductId(productId).isPresent());
 		postAndVerifyProduct(productId, UNPROCESSABLE_ENTITY)
-		.jsonPath("$.path").isEqualTo("/product")
+		.jsonPath("$.path").isEqualTo(PRODUCT_BASE_URL )
 		.jsonPath("$.message").isEqualTo("Duplicate Key, Product Id " + productId);
 	}
 	
@@ -75,13 +77,13 @@ public class ProductServiceTests {
 	@Test
 	public void getProductInvalidParameterString() {
         client.get()
-            .uri("/product/no-integer")
+            .uri(PRODUCT_BASE_URL + "/no-integer")
             .accept(APPLICATION_JSON_UTF8)
             .exchange()
             .expectStatus().isEqualTo(BAD_REQUEST)
             .expectHeader().contentType(APPLICATION_JSON_UTF8)
             .expectBody()
-            .jsonPath("$.path").isEqualTo("/product/no-integer");
+            .jsonPath("$.path").isEqualTo(PRODUCT_BASE_URL + "/no-integer");
 //            .jsonPath("$.message").isEqualTo("Type mismatch.");
 	}
 
@@ -89,13 +91,13 @@ public class ProductServiceTests {
 	public void getProductNotFound() {
 		int productIdNotFound = 13;
         client.get()
-            .uri("/product/" + productIdNotFound)
+            .uri(PRODUCT_BASE_URL + "/" + productIdNotFound)
             .accept(APPLICATION_JSON_UTF8)
             .exchange()
             .expectStatus().isNotFound()
             .expectHeader().contentType(APPLICATION_JSON_UTF8)
             .expectBody()
-            .jsonPath("$.path").isEqualTo("/product/" + productIdNotFound)
+            .jsonPath("$.path").isEqualTo(PRODUCT_BASE_URL + "/" + productIdNotFound)
             .jsonPath("$.message").isEqualTo("No Product found for productId " + productIdNotFound);
 	}
 
@@ -103,20 +105,20 @@ public class ProductServiceTests {
 	public void getProductInvalidParameterNegativeValue() {
         int productIdInvalid = -1;
         client.get()
-            .uri("/product/" + productIdInvalid)
+            .uri(PRODUCT_BASE_URL + "/" + productIdInvalid)
             .accept(APPLICATION_JSON_UTF8)
             .exchange()
             .expectStatus().isEqualTo(UNPROCESSABLE_ENTITY)
             .expectHeader().contentType(APPLICATION_JSON_UTF8)
             .expectBody()
-            .jsonPath("$.path").isEqualTo("/product/" + productIdInvalid)
+            .jsonPath("$.path").isEqualTo(PRODUCT_BASE_URL + "/" + productIdInvalid)
             .jsonPath("$.message").isEqualTo("Invalid productId: " + productIdInvalid);
 	}
 
 	private WebTestClient.BodyContentSpec postAndVerifyProduct(int productId, HttpStatus expectedStatus){
 		Product product = new Product(productId, "Name " + productId, productId, "SA");
 		return client.post()
-				.uri("/product")
+				.uri(PRODUCT_BASE_URL)
 				.body(just(product), Product.class)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
@@ -131,7 +133,7 @@ public class ProductServiceTests {
 	
 	private WebTestClient.BodyContentSpec getAndVerifyProduct(String productIdPath, HttpStatus expectedStatus){
 		return client.get()
-				.uri("/product" + productIdPath)
+				.uri(PRODUCT_BASE_URL  + productIdPath)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
 				.expectStatus().isEqualTo(expectedStatus)
@@ -141,7 +143,7 @@ public class ProductServiceTests {
 
 	private WebTestClient.BodyContentSpec deleteAndVerifyProduct(int productId, HttpStatus expectedStatus){
 		return client.delete()
-				.uri("/product/"+productId)
+				.uri(PRODUCT_BASE_URL + "/" + productId)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
 				.expectStatus().isEqualTo(expectedStatus)

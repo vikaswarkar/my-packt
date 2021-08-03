@@ -8,7 +8,7 @@
     <artifactId>product-microservices-parent</artifactId>
     <name>Product Microservices</name>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

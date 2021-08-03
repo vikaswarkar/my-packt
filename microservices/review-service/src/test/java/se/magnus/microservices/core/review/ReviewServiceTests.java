@@ -26,7 +26,9 @@ import static reactor.core.publisher.Mono.just;
 		properties = {"spring.datasource.url=jdbc:h2:mem:review-db",
 				"eureka.client.enabled=false"})
 @Slf4j
-public class ReviewServiceApplicationTests {
+public class ReviewServiceTests {
+
+	private String REVIEW_BASE_URL = "/reviews";
 
 	@Autowired
 	private WebTestClient client;
@@ -61,7 +63,7 @@ public class ReviewServiceApplicationTests {
 	private void printJson(int productId) {
 		WebClient webClient = WebClient.create();
 		
-		log.info("JSON ==>"+ webClient.get().uri("http://localhost:7003/review?productId="+productId).exchange()
+		log.info("JSON ==>"+ webClient.get().uri("http://localhost:7003" + REVIEW_BASE_URL + "?productId="+productId).exchange()
 				.block().bodyToMono(String.class).block());
 		
 	}
@@ -77,7 +79,7 @@ public class ReviewServiceApplicationTests {
 		assertEquals(1, repository.count());
 		
 		postAndVerifyReview(productId, reviewId, HttpStatus.UNPROCESSABLE_ENTITY)
-		.jsonPath("$.path").isEqualTo("/review")
+		.jsonPath("$.path").isEqualTo(REVIEW_BASE_URL)
 		.jsonPath("$.message").isEqualTo("Duplicate Key, Product Id: 1, Review Id: 1");
 		
 	}
@@ -100,8 +102,8 @@ public class ReviewServiceApplicationTests {
 	@Test
 	public void getReviewsMissingParameter() {
 
-		client.get().uri("/review").accept(APPLICATION_JSON_UTF8).exchange().expectStatus().isEqualTo(BAD_REQUEST)
-				.expectHeader().contentType(APPLICATION_JSON_UTF8).expectBody().jsonPath("$.path").isEqualTo("/review");
+		client.get().uri(REVIEW_BASE_URL).accept(APPLICATION_JSON_UTF8).exchange().expectStatus().isEqualTo(BAD_REQUEST)
+				.expectHeader().contentType(APPLICATION_JSON_UTF8).expectBody().jsonPath("$.path").isEqualTo(REVIEW_BASE_URL);
 //				.jsonPath("$.message").isEqualTo("Required int parameter 'productId' is not present");
 	}
 
@@ -109,13 +111,13 @@ public class ReviewServiceApplicationTests {
 	public void getReviewsInvalidParameter() {
 
 		client.get()
-			.uri("/review?productId=no-integer")
+			.uri(REVIEW_BASE_URL + "?productId=no-integer")
 			.accept(APPLICATION_JSON_UTF8)
 			.exchange()
 			.expectStatus().isEqualTo(BAD_REQUEST)
 			.expectHeader().contentType(APPLICATION_JSON_UTF8)
 			.expectBody()
-			.jsonPath("$.path").isEqualTo("/review");
+			.jsonPath("$.path").isEqualTo(REVIEW_BASE_URL);
 //			.jsonPath("$.message").isEqualTo("Type mismatch.");
 	}
 
@@ -124,7 +126,7 @@ public class ReviewServiceApplicationTests {
 
 		int productIdNotFound = 213;
 
-		client.get().uri("/review?productId=" + productIdNotFound).accept(APPLICATION_JSON_UTF8).exchange()
+		client.get().uri(REVIEW_BASE_URL + "?productId=" + productIdNotFound).accept(APPLICATION_JSON_UTF8).exchange()
 				.expectStatus().isOk().expectHeader().contentType(APPLICATION_JSON_UTF8).expectBody()
 				.jsonPath("$.length()").isEqualTo(0);
 	}
@@ -134,15 +136,15 @@ public class ReviewServiceApplicationTests {
 
 		int productIdInvalid = -1;
 
-		client.get().uri("/review?productId=" + productIdInvalid).accept(APPLICATION_JSON_UTF8).exchange()
+		client.get().uri(REVIEW_BASE_URL + "?productId=" + productIdInvalid).accept(APPLICATION_JSON_UTF8).exchange()
 				.expectStatus().isEqualTo(UNPROCESSABLE_ENTITY).expectHeader().contentType(APPLICATION_JSON_UTF8)
-				.expectBody().jsonPath("$.path").isEqualTo("/review").jsonPath("$.message")
+				.expectBody().jsonPath("$.path").isEqualTo(REVIEW_BASE_URL).jsonPath("$.message")
 				.isEqualTo("Invalid productId: " + productIdInvalid);
 	}
 	
 	private WebTestClient.BodyContentSpec getAndVerifyReviewsByProductId(int productId, HttpStatus expectedStatus){
 		return client.get()
-				.uri("/review?productId="+ productId)
+				.uri(REVIEW_BASE_URL + "?productId="+ productId)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
 				.expectStatus().isEqualTo(expectedStatus)
@@ -153,7 +155,7 @@ public class ReviewServiceApplicationTests {
 	private WebTestClient.BodyContentSpec postAndVerifyReview(int productId, int reviewId, HttpStatus expectedStatus){
 		Review review = new Review(productId, reviewId, "Author"+reviewId, "Subject" + reviewId, "Content" + reviewId,  "SA");
 		return client.post()
-				.uri("/review")
+				.uri(REVIEW_BASE_URL)
 				.body(just(review), Review.class)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
@@ -165,7 +167,7 @@ public class ReviewServiceApplicationTests {
 	private WebTestClient.BodyContentSpec deleteAndVerifyReviewsByProductId(int productId, HttpStatus expectedStatus){
 		return client
 				.delete()
-				.uri("/review?productId="+productId)
+				.uri(REVIEW_BASE_URL + "?productId="+productId)
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
 				.expectStatus().isEqualTo(expectedStatus)

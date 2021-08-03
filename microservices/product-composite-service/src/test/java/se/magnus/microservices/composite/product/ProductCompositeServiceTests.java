@@ -30,7 +30,7 @@ import static reactor.core.publisher.Mono.just;
 @SpringBootTest(webEnvironment=RANDOM_PORT,
 		properties = {"eureka.client.enabled=false"})
 @ExtendWith(SpringExtension.class)
-public class ProductCompositeServiceApplicationTests {
+public class ProductCompositeServiceTests {
 
 	private static final int PRODUCT_ID_OK = 1;
 	private static final int PRODUCT_ID_NOT_FOUND = 2;
