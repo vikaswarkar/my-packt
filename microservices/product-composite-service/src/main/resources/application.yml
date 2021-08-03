@@ -49,7 +49,8 @@ get-composite-product:
       This means that a delete request of a non existing product will return <b>200 Ok</b>.
         
 
-server.port: 7000
+
+server.port: 8080
 
 # These values are injected in the integration service.
 # These values are not used any more in the cloud environment, as the eureka client will
@@ -83,6 +84,7 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 ribbon.ServerListRefreshInterval: 5000
 

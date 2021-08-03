@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import se.magnus.microservices.composite.product.services.ProductCompositeIntegration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -25,11 +27,14 @@ import static springfox.documentation.builders.RequestHandlerSelectors.basePacka
 @ComponentScan("se.magnus")
 public class ProductCompositeServiceApplication {
 
-	// This is used for the first version of ProductCompositeService
+	@LoadBalanced
 	@Bean
 	RestTemplate restTemplate() {
+
 		return new RestTemplate();
-	}
+		}
+
+
 	@Value("${api.common.version}")           String apiVersion;
 	@Value("${api.common.title}")             String apiTitle;
 	@Value("${api.common.description}")       String apiDescription;
@@ -75,12 +80,5 @@ public class ProductCompositeServiceApplication {
 		SpringApplication.run(ProductCompositeServiceApplication.class, args);
 
 	}
-
-//	@Bean
-//	@LoadBalanced
-//	public WebClient.Builder loadBalancedWebClientBuilder(){
-//		final WebClient.Builder builder = WebClient.builder();
-//		return builder;
-//	}
 
 }

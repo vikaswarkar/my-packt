@@ -1,4 +1,4 @@
-server.port: 7001
+server.port: ${PORT:0}
 logging:
   level:
     root: INFO
@@ -26,6 +26,7 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 ---
 
 spring.profiles: docker

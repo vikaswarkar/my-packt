@@ -16,14 +16,17 @@ public class ServiceUtil {
 
     private String serviceAddress = null;
 
+    private String instanceId;
+
     @Autowired
-    public ServiceUtil(@Value("${server.port}") String port) {
+    public ServiceUtil(@Value("${server.port}") String port, @Value("${eureka.instance.instance-id}")String instanceId) {
         this.port = port;
+        this.instanceId = instanceId;
     }
 
     public String getServiceAddress() {
         if (serviceAddress == null) {
-            serviceAddress = findMyHostname() + "/" + findMyIpAddress() + ":" + port;
+            serviceAddress = findMyHostname() + "/" + findMyIpAddress() + ":" + instanceId + ":" + port;
         }
         return serviceAddress;
     }

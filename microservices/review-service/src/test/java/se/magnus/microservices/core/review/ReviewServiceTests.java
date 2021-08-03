@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static reactor.core.publisher.Mono.just;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT,
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT,
 		properties = {"spring.datasource.url=jdbc:h2:mem:review-db",
 				"eureka.client.enabled=false"})
 @Slf4j
@@ -40,7 +41,10 @@ public class ReviewServiceTests {
 	public void setUp() {
 		repository.deleteAll();
 	}
-	
+
+	@Value("${server.port}")
+	private String portNumber;
+
 	@Test
 	public void getReviewsByProductId() {
 
@@ -53,20 +57,20 @@ public class ReviewServiceTests {
 		assertEquals(3, repository.count());
 
 		int productId = 1;
-		printJson(productId);
+//		printJson(productId);
 		
 		getAndVerifyReviewsByProductId(productId, HttpStatus.OK)
 		.jsonPath("$.length()").isEqualTo(3)
 		.jsonPath("$[0].productId").isEqualTo(productId);
 	}
 
-	private void printJson(int productId) {
-		WebClient webClient = WebClient.create();
-		
-		log.info("JSON ==>"+ webClient.get().uri("http://localhost:7003" + REVIEW_BASE_URL + "?productId="+productId).exchange()
-				.block().bodyToMono(String.class).block());
-		
-	}
+//	private void printJson(int productId) {
+//		WebClient webClient = WebClient.create();
+//
+//		log.info("JSON ==>"+ webClient.get().uri("http://localhost:"+portNumber + REVIEW_BASE_URL + "?productId="+productId).exchange()
+//				.block().bodyToMono(String.class).block());
+//
+//	}
 	
 	@Test
 	public void duplicateError() {

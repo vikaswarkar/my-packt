@@ -1,4 +1,4 @@
-server.port: 7003
+server.port: ${PORT:0}
 logging:
   level:
     root: INFO
@@ -20,6 +20,11 @@ spring:
       initialization-fail-timeout: 60000
   application:
     name: review
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
 
 management.endpoint.health.show-details: "ALWAYS"
 management.endpoints.web.exposure.include: "*"
@@ -33,6 +38,7 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 ---
 
