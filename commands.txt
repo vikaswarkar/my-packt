@@ -3,3 +3,5 @@ java -jar microservices/product-service/target/product-service-0.0.1-SNAPSHOT.ja
 java -jar microservices/review-service/target/review-service-0.0.1-SNAPSHOT.jar &
 java -jar microservices/recommendation-service/target/recommendation-service-0.0.1-SNAPSHOT.jar &
 java -jar microservices/product-composite-service/target/product-composite-service-0.0.1-SNAPSHOT.jar
+docker-compose up product review recommendation product-composite
+docker-compose -d --scale product=2 --scale review=2
