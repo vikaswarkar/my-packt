@@ -29,12 +29,12 @@
         <module name="reactive-recommendation-service" />
         <module name="trad-recommendation-service" />
         <module name="async-product-composite-service" />
+        <module name="gateway" />
         <module name="async-review-service" />
         <module name="trad-product-composite-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="gateway" target="8" />
       <module name="product-composite-service (1)" target="8" />
       <module name="product-microservices" target="8" />
       <module name="product-microservices-parent (1)" target="8" />

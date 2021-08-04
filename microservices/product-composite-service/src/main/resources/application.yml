@@ -50,6 +50,7 @@ get-composite-product:
         
 
 
+
 server.port: 8080
 
 # These values are injected in the integration service.
