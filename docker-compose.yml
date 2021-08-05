@@ -7,6 +7,8 @@ services:
     environment: 
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
+      eureka:
+        condition: service_started
       mongodb:
         condition: service_healthy
 
@@ -18,12 +20,17 @@ services:
     depends_on:
       mongodb:
         condition: service_healthy
+      eureka:
+        condition: service_started
 
   review:
     build: microservices/review-service
     mem_limit: 350m
     environment: 
       - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      eureka:
+        condition: service_started
 
   product-composite:
     build: microservices/product-composite-service
@@ -34,6 +41,7 @@ services:
       - product
       - recommendation
       - review
+      - eureka
 #    ports:
 #      - "8080:8080"
   
@@ -66,16 +74,20 @@ services:
 #      timeout: 5s
 #      retries: 10
       
+
   eureka:
     build: spring-cloud/eureka-server
     mem_limit: 350m
-#    ports:
-#    - "8761:8761"
+    ports:
+    - "8761:8761"
 
   gateway:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     build: spring-cloud/gateway
     mem_limit: 350m
+    depends_on:
+      eureka:
+        condition: service_started
     ports:
-    - "8080:8080"
+    - "443:8443"

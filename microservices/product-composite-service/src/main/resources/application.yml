@@ -51,6 +51,7 @@ get-composite-product:
 
 
 
+
 server.port: 8080
 
 # These values are injected in the integration service.
@@ -67,6 +68,9 @@ app:
   review-service:
     host: localhost
     port: 7003
+  eureka-server: localhost
+  eureka-username: user
+  eureka-password: password
 
 logging:
   level:
@@ -79,7 +83,7 @@ management.endpoints.web.exposure.include: "*"
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
     initialInstanceInfoReplicationIntervalSeconds: 5
     registryFetchIntervalSeconds: 5
   instance:
@@ -111,5 +115,5 @@ app:
   review-service:
     host: review
     port: 8080
+  eureka-server: eureka
 
-eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka/
