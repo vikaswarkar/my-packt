@@ -33,6 +33,7 @@
         <module>util</module>
         <module>spring-cloud/eureka-server</module>
         <module>spring-cloud/gateway</module>
+        <module>spring-cloud/authorization-server</module>
     </modules>
 
     <dependencies>

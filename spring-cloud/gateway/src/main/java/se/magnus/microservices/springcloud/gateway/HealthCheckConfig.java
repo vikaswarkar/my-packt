@@ -78,6 +78,8 @@ public class HealthCheckConfig  {
         return new CompositeHealthContributor() {
             Map<String, HealthContributor> contributors = new LinkedHashMap<>();
             {
+                contributors.put("product-composite", getHealthIndicator("http://product-composite"));
+                contributors.put("auth-server", getHealthIndicator("http://auth-server"));
                 contributors.put("product", getHealthIndicator("http://product"));
                 contributors.put("review", getHealthIndicator("http://review"));
                 contributors.put("recommendation", getHealthIndicator("http://recommendation"));

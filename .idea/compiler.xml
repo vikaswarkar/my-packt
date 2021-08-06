@@ -24,6 +24,7 @@
         <module name="trad-product-service" />
         <module name="async-product-service" />
         <module name="util" />
+        <module name="authorization-server" />
         <module name="trad-review-service" />
         <module name="api" />
         <module name="reactive-recommendation-service" />
@@ -51,6 +52,7 @@
       <module name="async-product-service" options="-parameters" />
       <module name="async-recommendation-service" options="-parameters" />
       <module name="async-review-service" options="-parameters" />
+      <module name="authorization-server" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="product-composite-service" options="-parameters" />

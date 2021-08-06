@@ -78,8 +78,8 @@ services:
   eureka:
     build: spring-cloud/eureka-server
     mem_limit: 350m
-    ports:
-    - "8761:8761"
+#    ports:
+#    - "8761:8761"
 
   gateway:
     environment:
@@ -91,3 +91,10 @@ services:
         condition: service_started
     ports:
     - "443:8443"
+
+  auth-server:
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    build: spring-cloud/authorization-server
+    mem_limit: 350m
+
