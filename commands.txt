@@ -5,3 +5,34 @@ java -jar microservices/recommendation-service/target/recommendation-service-0.0
 java -jar microservices/product-composite-service/target/product-composite-service-0.0.1-SNAPSHOT.jar
 docker-compose up product review recommendation product-composite
 docker-compose -d --scale product=2 --scale review=2
+
+https://writer:secret@localhost:8443/oauth/token -d grant_type=password -d username=magnus -d password=password
+
+http://writer:password@localhost:9999/oauth/token?grant_type=password&username=magnus&password=password
+http://writer:password@localhost:9999/oauth/token?grant_type=password&username=magnus&password=password
+http://localhost:9999/.well-known/jwks.json
+
+curl -k https://writer:secret@localhost:8443/oauth/token -d grant_type=password -d username=magnus -d password=password -s | jq .
+
+https://localhost:8443/oauth/authorize?response_type=token&client_id=reader&redirect_uri=http://my.redirect.uri&scope=product:read&state=48532.
+
+http://my.redirect.uri/
+#access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYWdudXMiLCJleHAiOjIyMjgzMTM0ODgsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiIyZWRjNzVjNy0wN2JiLTQ5N2EtYTI5OS1lMDVlYTY0NDcyNTMiLCJjbGllbnRfaWQiOiJyZWFkZXIiLCJzY29wZSI6WyJwcm9kdWN0OnJlYWQiXX0.eflbDyge6C0hjm3pj9hxPIft4hCGFGDOYM7e9I8bEOqcb_B3F3zDDBxyMo7djb86dIYNRHrmYZzDxJbMdmTZvib2VGkf48R9uNQyXnJvy7PP-CZI52qKgT_kudpD6wfVhPqPRMxjGm4EuaPvfIpuhIkI2SNwisemkYI6ml8XdPV5ao8iRSUBZJ6mXjWuKU0h2x6MucNwzNVL__PoDqMY5ANlqYx0qfhtYyZIXQqFNa8hHOPPv9Fkyi5Q3S8REXEPRbXVOvzJ3pWkG9jIvb6oenIfKxuNiQZ9Uq6vVuEBNPTsrNqWNsoNvnyUqJsaFqcKWsIQT8fGTUbbo8e74KlTMA
+&token_type=bearer
+&state=48532.
+&expires_in=599999999
+&jti=2edc75c7-07bb-497a-a299-e05ea6447253
+
+
+https://localhost:8443/oauth/authorize?response_type=token&client_id=writer&redirect_uri=http://my.redirect.uri&scope=product:read+product:write&state=95372.
+
+http://my.redirect.uri/#access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYWdudXMiLCJleHAiOjIyMjgzMTM2NDEsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiIwM2I3OGRjZS1mZjlmLTQzMzItYmU5Yi1lMjViZTM4Y2Q4NTMiLCJjbGllbnRfaWQiOiJ3cml0ZXIiLCJzY29wZSI6WyJwcm9kdWN0OnJlYWQiLCJwcm9kdWN0OndyaXRlIl19.ANdAIwiz94RW24mcCQMqRKRD5pOqL9TbHZMd8ilu9WFS940pMhFIUpaeTQHCnkvkDfDteOiMFO3K9cSQTL9siGt33R15oVe18PtiQWchlBYB5x4ZxBkkIQpR8f8eJuu6Ozcbw4kWAPU6wCcWhNM3DpbSqQ8GsetpZG7ybkqyGwndlgEN86iLrydy_2Hw2hhtpoiCZNjRTNREHFdCVoqCv_yWqOVFFICsD6NxjarHBXukyL4TVZW_GH0zA_UqSnpYzk-5aics4pMaSHLyn-LjU4OSA8i25Of9W506vXMKaCZmuPD8vdy0RN8K0KEjjTL8MXvaoQrA8fqExt0HDt2PNA
+&token_type=bearer
+&state=95372.
+&expires_in=599999999
+&jti=03b78dce-ff9f-4332-be9b-e25be38cd853
+
+
+
+
+
