@@ -42,8 +42,8 @@ services:
       - recommendation
       - review
       - eureka
-#    ports:
-#      - "8080:8080"
+    ports:
+      - "8080:8080"
   
   mongodb:
     image: mongo:3.6.9
@@ -73,28 +73,27 @@ services:
 #      interval: 1000s
 #      timeout: 5s
 #      retries: 10
-      
 
   eureka:
     build: spring-cloud/eureka-server
     mem_limit: 350m
-#    ports:
-#    - "8761:8761"
-
-  gateway:
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    build: spring-cloud/gateway
-    mem_limit: 350m
-    depends_on:
-      eureka:
-        condition: service_started
     ports:
-    - "443:8443"
+    - "8761:8761"
 
-  auth-server:
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    build: spring-cloud/authorization-server
-    mem_limit: 350m
+#  gateway:
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    build: spring-cloud/gateway
+#    mem_limit: 350m
+#    depends_on:
+#      eureka:
+#        condition: service_started
+#    ports:
+#    - "443:8443"
+#
+#  auth-server:
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    build: spring-cloud/authorization-server
+#    mem_limit: 350m
 

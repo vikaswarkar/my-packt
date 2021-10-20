@@ -10,7 +10,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         "spring.main.allow-bean-definition-overriding=true"})
 class GatewayApplicationTests {
 
-    @Test
     void contextLoads() {
     }
 
