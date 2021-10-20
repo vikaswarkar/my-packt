@@ -3,7 +3,6 @@ package se.magnus.microservices.composite.product.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -16,7 +15,7 @@ import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
 @Configuration
 
-public class SwaggerConfig implements WebMvcConfigurer{
+public class SwaggerConfig {
 
 
     @Value("${api.common.version}")           String apiVersion;

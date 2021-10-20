@@ -7,34 +7,37 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 import se.magnus.microservices.composite.product.services.ProductCompositeIntegration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
 import static springfox.documentation.builders.RequestHandlerSelectors.basePackage;
 
+//@EnableWebFlux
 @SpringBootApplication
-@EnableSwagger2
+//@EnableSwagger2
 @ComponentScan("se.magnus")
 public class ProductCompositeServiceApplication {
 
 	@LoadBalanced
 	@Bean
+	@Profile({"eureka"})
 	RestTemplate restTemplate() {
-
 		return new RestTemplate();
-		}
+	}
 
-
+	@Bean("restTemplate")
+	RestTemplate noLoadBalancedRestTemplate() {
+		return new RestTemplate();
+	}
 	@Value("${api.common.version}")           String apiVersion;
 	@Value("${api.common.title}")             String apiTitle;
 	@Value("${api.common.description}")       String apiDescription;

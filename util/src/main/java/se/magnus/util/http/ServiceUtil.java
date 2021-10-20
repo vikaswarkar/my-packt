@@ -19,7 +19,8 @@ public class ServiceUtil {
     private String instanceId;
 
     @Autowired
-    public ServiceUtil(@Value("${server.port}") String port, @Value("${eureka.instance.instance-id}")String instanceId) {
+    public ServiceUtil(@Value("${server.port}") String port,
+                       @Value("${eureka.instance.instance-id}")String instanceId) {
         this.port = port;
         this.instanceId = instanceId;
     }

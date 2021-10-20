@@ -57,6 +57,7 @@
       <module name="gateway" options="-parameters" />
       <module name="product-composite-service" options="-parameters" />
       <module name="product-composite-service (1)" options="-parameters" />
+      <module name="product-microservices-parent" options="" />
       <module name="product-service" options="-parameters" />
       <module name="product-service (1)" options="-parameters" />
       <module name="product-service (2)" options="-parameters" />

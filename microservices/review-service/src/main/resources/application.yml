@@ -1,4 +1,5 @@
-server.port: ${PORT:0}
+server.port: 7002
+
 logging:
   level:
     root: INFO
@@ -44,6 +45,13 @@ app:
   eureka-username: user
   eureka-password: password
   eureka-server: localhost
+
+---
+
+spring.profiles: eureka
+
+server.port: ${PORT:0}
+
 ---
 
 spring.profiles: docker

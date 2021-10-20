@@ -2,8 +2,6 @@ package se.magnus.microservices.composite.product.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -14,6 +12,8 @@ import se.magnus.api.core.recommendation.Recommendation;
 import se.magnus.api.core.recommendation.RecommendationService;
 import se.magnus.api.core.review.Review;
 import se.magnus.api.core.review.ReviewService;
+import se.magnus.microservices.composite.product.config.AppConfiguration;
+import se.magnus.util.exceptions.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,31 +27,25 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 	private final RestTemplate restTemplate;
 	private final ExceptionHelper exceptionHelper;
 
-	private final String productServiceUrl = "http://product/products/";
-	private final String recommendationServiceUrl = "http://recommendation/recommendations?productId=";
-	private final String reviewServiceUrl = "http://review:/reviews?productId=";
+	private String productServiceUrl = "http://product/products/";
+	private String recommendationServiceUrl = "http://recommendation/recommendations?productId=";
+	private String reviewServiceUrl = "http://review:/reviews?productId=";
+
+	AppConfiguration appConfiguration;
 
 	@Autowired
 	public ProductCompositeIntegration(
 			RestTemplate restTemplate,
-			ExceptionHelper exceptionHelper
-
-//			@Value("${app.product-service.host}") String productServiceHost,
-//			@Value("${app.product-service.port}") int productServicePort,
-//
-//			@Value("${app.recommendation-service.host}") String recommendationServiceHost,
-//			@Value("${app.recommendation-service.port}") int recommendationServicePort,
-//
-//			@Value("${app.review-service.host}") String reviewServiceHost,
-//			@Value("${app.review-service.port}") int reviewServicePort
+			ExceptionHelper exceptionHelper,
+			AppConfiguration appConfiguration
 	) {
 
 		this.restTemplate = restTemplate;
 		this.exceptionHelper = exceptionHelper;
 
-//		productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/products/";
-//		recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendations?productId=";
-//		reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort + "/reviews?productId=";
+		productServiceUrl = "http://" + appConfiguration.getProductServiceHost() + ":" + appConfiguration.getProductServicePort() + "/products/";
+		recommendationServiceUrl = "http://" + appConfiguration.getRecommendationServiceHost() + ":" + appConfiguration.getRecommendationServicePort() + "/recommendations?productId=";
+		reviewServiceUrl = "http://" + appConfiguration.getReviewServiceHost() + ":" + appConfiguration.getReviewServicePort() + "/reviews?productId=";
 	}
 
 	@Override
@@ -76,6 +70,9 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 			log.debug("Will call getProduct API on URL: {}", url);
 
 			Product product = restTemplate.getForObject(url, Product.class);
+			if (product == null){
+				throw new NotFoundException("No Products found for id " + productId);
+			}
 			log.debug("Found a product with id: {}", product.getProductId());
 
 			return product;
@@ -179,7 +176,13 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 	}
 
 	private RuntimeException handleHttpClientException(HttpClientErrorException ex) {
-		return exceptionHelper.handleException(ex, ex.getStatusCode());
+
+		try {
+			return exceptionHelper.handleException(ex, ex.getStatusCode());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new RuntimeException("Something Wrong happenned in Product Composite Integration");
 	}
 
 }

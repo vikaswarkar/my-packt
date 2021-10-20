@@ -49,10 +49,17 @@ get-composite-product:
       This means that a delete request of a non existing product will return <b>200 Ok</b>.
         
 
-
-
-
 server.port: 8080
+
+spring:
+  application:
+    name: product-composite
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    user:
+      name: user
+      password: password
 
 # These values are injected in the integration service.
 # These values are not used any more in the cloud environment, as the eureka client will
@@ -64,13 +71,14 @@ app:
     port: 7001
   recommendation-service:
     host: localhost
-    port: 7002
+    port: 7003
   review-service:
     host: localhost
-    port: 7003
+    port: 7002
   eureka-server: localhost
   eureka-username: user
   eureka-password: password
+  auth-server: localhost
 
 logging:
   level:
@@ -95,9 +103,23 @@ ribbon.ServerListRefreshInterval: 5000
 
 ribbon.NFLoadBalancerPingInterval: 5
 
+---
+
+spring.profiles: secured
+
 spring:
-  application:
-    name: product-composite
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json
+
+---
+
+spring.profiles: eureka
+
+server.port: ${PORT:0}
+
 ---
 
 spring.profiles: docker
@@ -116,4 +138,5 @@ app:
     host: review
     port: 8080
   eureka-server: eureka
+  auth-server: auth-server
 
