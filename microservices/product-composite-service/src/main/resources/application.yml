@@ -49,6 +49,7 @@ get-composite-product:
       This means that a delete request of a non existing product will return <b>200 Ok</b>.
         
 
+
 server.port: 8080
 
 spring:
@@ -69,12 +70,15 @@ app:
   product-service:
     host: localhost
     port: 7001
+    url: http://${app.product-service.host}:${app.product-service.port}
   recommendation-service:
     host: localhost
     port: 7003
+    url: http://${app.recommendation-service.host}:${app.recommendation-service.port}
   review-service:
     host: localhost
     port: 7002
+    url: http://${app.review-service.host}:${app.review-service.port}
   eureka-server: localhost
   eureka-username: user
   eureka-password: password
@@ -118,7 +122,16 @@ spring:
 
 spring.profiles: eureka
 
-server.port: ${PORT:0}
+app:
+  product-service:
+    host: product
+    url: http://${app.product-service.host}
+  recommendation-service:
+    host: recommendation
+    url: http://${app.recommendation-service.host}
+  review-service:
+    host: review
+    url: http://${app.review-service.host}
 
 ---
 
@@ -131,12 +144,15 @@ app:
   product-service:
     host: product
     port: 8080
+    url: http://${app.product-service.host}
   recommendation-service:
     host: recommendation 
     port: 8080
+    url: http://${app.recommendation-service.host}
   review-service:
     host: review
     port: 8080
+    url: http://${app.review-service.host}
   eureka-server: eureka
   auth-server: auth-server
 

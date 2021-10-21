@@ -43,9 +43,9 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 		this.restTemplate = restTemplate;
 		this.exceptionHelper = exceptionHelper;
 
-		productServiceUrl = "http://" + appConfiguration.getProductServiceHost() + ":" + appConfiguration.getProductServicePort() + "/products/";
-		recommendationServiceUrl = "http://" + appConfiguration.getRecommendationServiceHost() + ":" + appConfiguration.getRecommendationServicePort() + "/recommendations?productId=";
-		reviewServiceUrl = "http://" + appConfiguration.getReviewServiceHost() + ":" + appConfiguration.getReviewServicePort() + "/reviews?productId=";
+		productServiceUrl = appConfiguration.getProductServiceUrl() + "/products/";
+		recommendationServiceUrl = appConfiguration.getRecommendationServiceUrl() + "/recommendations?productId=";
+		reviewServiceUrl =  appConfiguration.getReviewServiceUrl()  + "/reviews?productId=";
 	}
 
 	@Override

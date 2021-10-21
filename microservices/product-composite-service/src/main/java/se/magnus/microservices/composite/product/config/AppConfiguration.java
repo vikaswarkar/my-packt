@@ -10,21 +10,13 @@ import org.springframework.context.annotation.Configuration;
 @NoArgsConstructor
 public class AppConfiguration {
 
-    @Value("${app.product-service.host}")
-    String productServiceHost;
+    @Value("${app.product-service.url}")
+    String productServiceUrl;
 
-    @Value("${app.product-service.port}")
-    int productServicePort;
+    @Value("${app.recommendation-service.url}")
+    String recommendationServiceUrl;
 
-    @Value("${app.recommendation-service.host}")
-    String recommendationServiceHost;
+    @Value("${app.review-service.url}")
+    String reviewServiceUrl;
 
-    @Value("${app.recommendation-service.port}")
-    int recommendationServicePort;
-
-    @Value("${app.review-service.host}")
-    String reviewServiceHost;
-
-    @Value("${app.review-service.port}")
-    int reviewServicePort;
 }

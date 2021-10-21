@@ -39,6 +39,7 @@ public class ProductCompositeServiceApplication {
 	RestTemplate noLoadBalancedRestTemplate() {
 		return new RestTemplate();
 	}
+
 	@Value("${api.common.version}")           String apiVersion;
 	@Value("${api.common.title}")             String apiTitle;
 	@Value("${api.common.description}")       String apiDescription;
