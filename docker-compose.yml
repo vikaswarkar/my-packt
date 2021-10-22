@@ -5,7 +5,7 @@ services:
     build: microservices/product-service
     mem_limit: 350m
     environment: 
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,eureka
     depends_on:
       eureka:
         condition: service_started
@@ -16,7 +16,7 @@ services:
     build: microservices/recommendation-service
     mem_limit: 350m
     environment: 
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,eureka
     depends_on:
       mongodb:
         condition: service_healthy
@@ -27,7 +27,7 @@ services:
     build: microservices/review-service
     mem_limit: 350m
     environment: 
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,eureka
     depends_on:
       eureka:
         condition: service_started
@@ -36,7 +36,7 @@ services:
     build: microservices/product-composite-service
     mem_limit: 350m
     environment: 
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=docker,eureka
     depends_on: 
       - product
       - recommendation
