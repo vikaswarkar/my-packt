@@ -4,8 +4,7 @@ app:
   eureka-password: password
   auth-server: localhost
 
-server.port: 8443
-
+#server.port: 8443
 logging:
   level:
     root: INFO
@@ -32,6 +31,8 @@ ribbon.ServerListRefreshInterval: 5000
 ribbon.NFLoadBalancerPingInterval: 5
 
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: gateway
   cloud:
@@ -65,6 +66,13 @@ spring:
           uri: lb://auth-server
           predicates:
             - Path=/oauth/**
+
+  port: 8080
+
+---
+spring:
+  profiles: security
+
   security:
     oauth2:
       resourceserver:
@@ -77,7 +85,6 @@ server:
     key-store: classpath:keystore/edge.p12
     key-store-password: password
     key-store-type: PKCS12
-
 ---
 
 spring.profiles: docker

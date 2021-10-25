@@ -80,15 +80,17 @@ services:
     ports:
     - "8761:8761"
 
-#  gateway:
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    build: spring-cloud/gateway
-#    mem_limit: 350m
-#    depends_on:
-#      eureka:
-#        condition: service_started
-#    ports:
+  gateway:
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    build: spring-cloud/gateway
+    mem_limit: 350m
+    depends_on:
+      eureka:
+        condition: service_started
+    ports:
+      - "8080:8080"
+
 #    - "443:8443"
 #
 #  auth-server:

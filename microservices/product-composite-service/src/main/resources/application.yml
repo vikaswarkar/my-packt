@@ -1,3 +1,5 @@
+server.port: 7000
+
 api:
 
   common:
@@ -47,10 +49,6 @@ get-composite-product:
       Entities for product information, recommendations and reviews related to the specificed productId will be deleted.
       The implementation of the delete method is idempotent, i.e. it can be called several times with the same response.
       This means that a delete request of a non existing product will return <b>200 Ok</b>.
-        
-
-
-server.port: 8080
 
 spring:
   application:
@@ -132,6 +130,8 @@ app:
   review-service:
     host: review
     url: http://${app.review-service.host}
+
+server.port: ${PORT:0}
 
 ---
 
