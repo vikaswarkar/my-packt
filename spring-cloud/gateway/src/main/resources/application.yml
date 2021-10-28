@@ -4,7 +4,8 @@ app:
   eureka-password: password
   auth-server: localhost
 
-#server.port: 8443
+server.port: 8443
+
 logging:
   level:
     root: INFO
@@ -67,8 +68,14 @@ spring:
           predicates:
             - Path=/oauth/**
 
-  port: 8080
+#  port: 8080
 
+server:
+  ssl:
+    key-alias: localhost
+    key-store: classpath:keystore/edge.p12
+    key-store-password: password
+    key-store-type: PKCS12
 ---
 spring:
   profiles: security
@@ -79,12 +86,6 @@ spring:
         jwt:
           jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json
 
-server:
-  ssl:
-    key-alias: localhost
-    key-store: classpath:keystore/edge.p12
-    key-store-password: password
-    key-store-type: PKCS12
 ---
 
 spring.profiles: docker

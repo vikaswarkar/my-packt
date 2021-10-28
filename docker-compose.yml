@@ -89,9 +89,8 @@ services:
       eureka:
         condition: service_started
     ports:
-      - "8081:8080"
-
-#    - "443:8443"
+#      - "8081:8080"
+    - "443:8443"
 #
 #  auth-server:
 #    environment:
